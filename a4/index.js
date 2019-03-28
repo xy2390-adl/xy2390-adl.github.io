@@ -8,7 +8,7 @@ const HOSTED_URLS = {
 
 const examples = {
   'example1':
-      'When I arrived there, I walked right into the arms of a police-officer who was coming out, and only managed to disarm his suspicions by pretending to be hopelessly drunk.'
+      'When I arrived there, I walked right into the arms of a police-officer who was coming out, and only managed to disarm his suspicions by pretending to be hopelessly drunk.',
   'example2':
       'There was something pathetic in it that touched me; it also gave me a lesson, for it seemed that before me was a child--only a child, though the features were worn, and the stubble on the jaws was white.',
   'example3':
