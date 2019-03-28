@@ -8,13 +8,13 @@ const HOSTED_URLS = {
 
 const examples = {
   'example1':
-      'Alice was beginning to get very tired of sitting by her sister on the bank.',
-  'example2':
-      'Buda-Pesth seems a wonderful place.',
-  'example3':
-      'Scepticism was as much the result of knowledge, as knowledge is of scepticism.',
-  'example4':
       'When I arrived there, I walked right into the arms of a police-officer who was coming out, and only managed to disarm his suspicions by pretending to be hopelessly drunk.'
+  'example2':
+      'There was something pathetic in it that touched me; it also gave me a lesson, for it seemed that before me was a child--only a child, though the features were worn, and the stubble on the jaws was white.',
+  'example3':
+      'Alice was beginning to get very tired of sitting by her sister on the bank.',
+  'example4':
+      'He said, nor Hector to the chief replies, But shakes his plume, and fierce to combat flies;   Swift as a whirlwind, drives the scattering foes;   And dyes the ground with purple as he goes.'
 };
 
 function status(statusText) {
