@@ -1,32 +1,41 @@
 
+
 const HOSTED_URLS = {
   model:
-      'model_js/model.json',
+    'model_js/model.json',
   metadata:
-      'model_js/metadata.json'
+    'model_js/metadata.json'
 };
 
 const examples = {
   'example1':
-      'light blue',
+    'light blue',
   'example2':
-      'blue',
+    'blue',
   'example3':
-      'dark blue',
+    'dark blue',
   'example4':
-      'tensorflow orange'
+    'tensorflow orange'
 };
+
+const colors = ['R', 'G', 'B']
 
 function status(statusText) {
   console.log(statusText);
   document.getElementById('status').textContent = statusText;
 }
 
+function set_color(r, g, b) {
+  console.log(r, g, b);
+  console.log(`rgb(${r}, ${g}, ${b})`)
+  document.getElementById('color_box').style.background = `rgb(${r}, ${g}, ${b})`;
+}
+
 function showMetadata(metadataJSON) {
   document.getElementById('vocabularySize').textContent =
-      metadataJSON['vocabulary_size'];
+    metadataJSON['vocabulary_size'];
   document.getElementById('maxLen').textContent =
-      metadataJSON['max_len'];
+    metadataJSON['max_len'];
 }
 
 function settextField(text, predict) {
@@ -47,13 +56,18 @@ function disableLoadModelButtons() {
 function doPredict(predict) {
   const textField = document.getElementById('text-entry');
   const result = predict(textField.value);
-  score_string = "Class scores: ";
+  score_string = "RGB values: ";
   for (var x in result.score) {
-    score_string += x + " ->  " + result.score[x].toFixed(3) + ", "
+    score_string += colors[x] + " ->  " + result.score[x].toFixed(3) + ", "
   }
   //console.log(score_string);
   status(
-      score_string + ' elapsed: ' + result.elapsed.toFixed(3) + ' ms)');
+    score_string + ' elapsed: ' + result.elapsed.toFixed(3) + ' ms)');
+
+  r = Math.floor(255 * result.score[0]);
+  g = Math.floor(255 * result.score[1]);
+  b = Math.floor(255 * result.score[2]);
+  set_color(r, g, b);
 }
 
 function prepUI(predict) {
@@ -68,7 +82,7 @@ function prepUI(predict) {
 async function urlExists(url) {
   status('Testing url ' + url);
   try {
-    const response = await fetch(url, {method: 'HEAD'});
+    const response = await fetch(url, { method: 'HEAD' });
     return response.ok;
   } catch (err) {
     return false;
@@ -112,7 +126,7 @@ class Classifier {
 
   async loadMetadata() {
     const metadata =
-        await loadHostedMetadata(this.urls.metadata);
+      await loadHostedMetadata(this.urls.metadata);
     showMetadata(metadata);
     this.maxLen = metadata['max_len'];
     console.log('maxLen = ' + this.maxLen);
@@ -122,16 +136,21 @@ class Classifier {
   predict(text) {
     // Convert to lower case and remove all punctuations.
     const inputText =
-        text.trim().toLowerCase().replace(/(\.|\,|\!)/g, '').split(' ');
+      text.trim().toLowerCase().replace(/(\.|\,|\!)/g, '').split('');
+    console.log(inputText)
     // Look up word indices.
     const inputBuffer = tf.buffer([1, this.maxLen], 'float32');
+    for (let i = 0; i < this.maxLen - inputText.length; ++i) {
+      inputBuffer.set(0, 0, i);
+    }
     for (let i = 0; i < inputText.length; ++i) {
       const word = inputText[i];
-      inputBuffer.set(this.wordIndex[word], 0, i);
-      //console.log(word, this.wordIndex[word], inputBuffer);
+      inputBuffer.set(this.wordIndex[word], 0, this.maxLen - inputText.length + i);
+      // inputBuffer.set(this.wordIndex[word], 0, i);
+      // console.log(word, this.wordIndex[word], inputBuffer);
     }
     const input = inputBuffer.toTensor();
-    //console.log(input);
+    console.log(input);
 
     status('Running inference');
     const beginMs = performance.now();
@@ -141,7 +160,7 @@ class Classifier {
     predictOut.dispose();
     const endMs = performance.now();
 
-    return {score: score, elapsed: (endMs - beginMs)};
+    return { score: score, elapsed: (endMs - beginMs) };
   }
 };
 
@@ -160,3 +179,4 @@ async function setup() {
 }
 
 setup();
+

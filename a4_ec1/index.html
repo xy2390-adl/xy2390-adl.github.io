@@ -2,20 +2,31 @@
 <!doctype html>
 
 <body>
+
   <style>
     #textfield {
       font-size: 120%;
       width: 60%;
       height: 200px;
     }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      /* background: rgb(255, 255, 255); */
+    }
   </style>
+
   <h1>
     ADL a4 EC 1
   </h1>
+
   <hr>
+
   <div class="create-model">
     <button id="load-model" style="display:none">Load model</button>
   </div>
+
   <div>
     <div>
       <span>Vocabulary size: </span>
@@ -26,7 +37,9 @@
       <span id="maxLen"></span>
     </div>
   </div>
+
   <hr>
+
   <div>
     <select id="example-select" class="form-control">
       <option value="example1">light blue</option>
@@ -35,13 +48,18 @@
       <option value="example4">tensorflow orange</option>
     </select>
   </div>
+
   <div>
     <textarea id="text-entry"></textarea>
   </div>
+
   <hr>
+
   <div>
     <span id="status">Standing by.</span>
   </div>
+
+  <div class="box" id="color_box"></div>
 
   <script src='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js'></script>
   <script src='index.js'></script>
